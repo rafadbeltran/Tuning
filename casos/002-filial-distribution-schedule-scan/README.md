@@ -13,6 +13,7 @@ falta de índice em `schedule_id`.
 - [`00_consulta_original.sql`](00_consulta_original.sql) — baseline antes do tuning.
 - [`01_diagnostico.md`](01_diagnostico.md) — leitura do EXPLAIN ANALYZE e causa raiz.
 - [`02_tuning.sql`](02_tuning.sql) — índice proposto e validações.
+- [`03_procedure.sql`](03_procedure.sql) — consulta tunada parametrizada como procedure.
 
 ## Resumo do diagnóstico
 
