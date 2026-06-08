@@ -11,6 +11,7 @@ raciocínio e reproduzir o antes/depois.
 |---|------|-----------|--------|
 | 001 | [Consulta de notificações — coerção em `status_id_virt`](casos/001-notifications-status-id/) | MySQL / InnoDB | 🟢 Resolvido |
 | 002 | [`SELECT DISTINCT user_id` por `schedule_id` — full scan](casos/002-filial-distribution-schedule-scan/) | MySQL / InnoDB | 🟢 Resolvido |
+| 003 | [`MEMBER OF` em colunas JSON — índice multi-valor](casos/003-leads-member-of-json/) | MySQL / InnoDB | 🟢 Resolvido |
 
 > Status: 🟡 em andamento · 🟢 resolvido · ⚪ ideia/backlog
 
