@@ -58,3 +58,7 @@ A estimativa (7 linhas) bateu com o real (6) — não era otimista.
 o inner join trouxe 3 linhas e o antijoin removeu as 3 (esses `user_id`
 estavam no conjunto excluído). Validar uma vez com dados em que se espera
 retorno, para confirmar a lógica.
+
+
+# Quem Roda?
+dist_100k_mais	10.1.1.244:49362

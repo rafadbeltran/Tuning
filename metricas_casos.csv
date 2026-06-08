@@ -1,0 +1,5 @@
+caso,titulo,tecnologia,fase,linhas_lidas,tempo_ms,observacao
+001,Consulta de notificações (coerção em status_id_virt),MySQL / InnoDB,antes,657730,,baseline: ref em fk_notification__types_idx; tempo não medido
+001,Consulta de notificações (coerção em status_id_virt),MySQL / InnoDB,depois,6,4.53,índice idx_notif_otimizacao destravado ao trocar = 0 por = '0'
+002,SELECT DISTINCT user_id por schedule_id,MySQL / InnoDB,antes,1640000,832,full table scan + temporary table; ~5000 ms a frio
+002,SELECT DISTINCT user_id por schedule_id,MySQL / InnoDB,depois,1591,0.82,covering index lookup (schedule_id, user_id); DISTINCT via índice

@@ -19,3 +19,4 @@ WHERE n.type = 3
       SELECT id FROM intranet.users_usuario
       WHERE role_id IN (142, 165, 174) AND is_active = 1
   );
+--Ver com renato | Lucas
