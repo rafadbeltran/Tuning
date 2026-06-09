@@ -2,3 +2,4 @@ caso,titulo,tecnologia,linhas_antes,linhas_depois,tempo_antes_ms,tempo_depois_ms
 001,Consulta de notificações (coerção em status_id_virt),MySQL / InnoDB,657730,6,,4.53,trocar = 0 por = '0' destravou idx_notif_otimizacao; tempo antes não medido
 002,SELECT DISTINCT user_id por schedule_id,MySQL / InnoDB,1640000,1591,832,0.82,covering index (schedule_id, user_id) + DISTINCT via índice; ~5000 ms a frio antes
 003,MEMBER OF em colunas JSON (phones_list / emails_list),MySQL / InnoDB,3840000,8,8956,0.08,MV index telefone + lookup leads_emails; UNION no lugar de OR
+006,Contagem de leads por user_id (LIKE em updated_time),MySQL / InnoDB,359534,141,621,0.12,LIKE de data trocado por range half-open + covering index (updated_time user_id deal_id); FK_score mantido para a FK
