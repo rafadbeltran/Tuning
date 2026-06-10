@@ -13,6 +13,7 @@ users (A) e um único user_id (B) — mesma forma, o índice serve as duas.
 - [`00_consulta_original.sql`](00_consulta_original.sql) — baseline (versões A e B, formatadas).
 - [`01_diagnostico.md`](01_diagnostico.md) — leitura do EXPLAIN ANALYZE e causa raiz.
 - [`02_tuning.sql`](02_tuning.sql) — índice proposto e validação (sem reescrita).
+- [`03_procedure.sql`](03_procedure.sql) — consulta parametrizada (CSV de `user_id` + período) como stored procedure.
 
 ## Resumo do diagnóstico
 
