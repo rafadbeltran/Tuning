@@ -1,26 +1,36 @@
 # 009 — `avel.activities` — atividades do dia por lista de usuários
 
-**Status:** ⚪ Backlog
+**Status:** 🟢 Resolvido — índice composto `(user_id, done_time)` trocou o full scan de
+4,46M por um index range scan de 317 linhas (42 ranges, um por usuário): **~8.857 ms →
+~3,87 ms (~2.300×)**. Sem reescrever a consulta (já era sargável).
 
 Atividades concluídas (`done_time`) num único dia, para uma lista de `user_id`,
-`is_deleted = 0`, ordenadas por `done_time DESC`. Duas versões: lista de ~42 users e
-um único user_id.
+`is_deleted = 0`, ordenadas por `done_time DESC`. Duas versões no baseline: lista de 42
+users (A) e um único user_id (B) — mesma forma, o índice serve as duas.
 
 ## Arquivos
 
-- [`00_consulta_original.sql`](00_consulta_original.sql) — baseline (2 versões).
+- [`00_consulta_original.sql`](00_consulta_original.sql) — baseline (versões A e B, formatadas).
+- [`01_diagnostico.md`](01_diagnostico.md) — leitura do EXPLAIN ANALYZE e causa raiz.
+- [`02_tuning.sql`](02_tuning.sql) — índice proposto e validação (sem reescrita).
 
-## Suspeita (a confirmar com EXPLAIN)
+## Resumo do diagnóstico
 
-- Filtro = `user_id IN (...)` + range de `done_time` no dia + `is_deleted = 0`, com
-  `ORDER BY done_time DESC`. Sem índice composto adequado → provável **filesort** e/ou
-  varredura maior que o necessário.
-- Índice candidato: **`(user_id, done_time)`** (com `IN`, vira N range scans, um por
-  user, já na ordem de `done_time`). Avaliar incluir `is_deleted` para cobrir o filtro.
-- A ordenação global `done_time DESC` cruza vários `user_id`: com `IN` o MySQL pode
-  precisar de merge/sort mesmo com o índice — medir filesort vs. sem.
+A query é **sargável** (range em `done_time`, `IN` em `user_id`, igualdade em
+`is_deleted`) mas **não tem índice** que a atenda → **full table scan de ~4,46M linhas**
+para reter **317** (~0,007%), **~8,86 s a quente** (minutos a frio). O `Sort: done_time
+DESC` não é o gargalo (ordena só 317 linhas; espera o scan). Fix = **criar o índice,
+sem reescrever a consulta**.
+
+## Ordem de ataque
+
+1. Índice composto **`(user_id, done_time)`** — com `IN`, vira N range scans por
+   usuário já na ordem de `done_time` (~317 linhas em vez de 4,46M). Resolve A e B.
 
 ## Pendências
 
-- [ ] `EXPLAIN` (olhar `Using filesort` / `type` / `rows`).
-- [ ] Testar `(user_id, done_time)` e variações; medir os dois cenários (42 vs 1 user).
+- [x] Criar o índice, re-rodar `EXPLAIN ANALYZE` e colar o "depois" (8.857 ms → 3,87 ms).
+- [x] `metricas_casos.csv` preenchido.
+- [ ] `SHOW CREATE TABLE avel.activities` — confirmar que não ficou índice redundante por `user_id`.
+- [ ] Medir a frio (atualizar `tempo_antes` se adotar o critério frio→frio).
+- [ ] (Opcional) incluir `is_deleted` no índice só se houver muitos deletados.

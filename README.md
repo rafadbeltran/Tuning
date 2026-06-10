@@ -16,8 +16,8 @@ raciocínio e reproduzir o antes/depois.
 | 005 | [Leituras de tabela inteira sem filtro (`pipe_database`, `customer_info`)](casos/005-full-reads-sem-filtro/) | MySQL / InnoDB | ⚪ Backlog |
 | 006 | [`score_assigned_leads` — `updated_time LIKE` em coluna de data](casos/006-score-assigned-leads-like-data/) | MySQL / InnoDB | 🟢 Resolvido |
 | 007 | [`bi.pack_auc` — maior/último AUC por cliente (`big_team`)](casos/007-pack-auc-ultimo-maior-auc/) | MySQL / InnoDB | 🟢 Resolvido |
-| 008 | [`intranet.customer` — won/lost por lista de assessores na janela do mês](casos/008-customer-won-lost-by-assessores/) | MySQL / InnoDB | ⚪ Backlog |
-| 009 | [`avel.activities` — atividades do dia por lista de usuários](casos/009-activities-user-done-time-dia/) | MySQL / InnoDB | ⚪ Backlog |
+| 008 | [`intranet.customer` — won/lost por lista de assessores na janela do mês](casos/008-customer-won-lost-by-assessores/) | MySQL / InnoDB | 🟡 Em andamento |
+| 009 | [`avel.activities` — atividades do dia por lista de usuários](casos/009-activities-user-done-time-dia/) | MySQL / InnoDB | 🟢 Resolvido |
 | 010 | [`avel.positivador` — net + último wealth + última ativação](casos/010-positivador-net-wealth-ativacao/) | MySQL / InnoDB | ⚪ Backlog |
 | 011 | [`pipe_database` — busca de `deal_id` com `CAST` + `LIKE '%n%'`](casos/011-pipe-database-busca-deal-id-like/) | MySQL / InnoDB | ⚪ Backlog |
 | 012 | [Custódia do cliente — agregação JSON gigante](casos/012-customer-custody-agregacao-json/) | MySQL / InnoDB | ⚪ Backlog |
