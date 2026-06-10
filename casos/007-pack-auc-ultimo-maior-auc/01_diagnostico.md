@@ -54,6 +54,22 @@ trabalho de agregação (SCAN #2 + SCAN #3, cada um materializando 96.196 linhas
 ainda manteve a subquery correlacionada (SCAN #4). É mais código fazendo mais
 varreduras.
 
+## Custo a frio: ~21 minutos na primeira execução
+
+O `EXPLAIN ANALYZE` acima (~12 s) é uma medição **a quente**: para gerar o `ANALYZE`,
+a query roda inteira, o que já deixa as 2,69M linhas no buffer pool. A **primeira
+execução real, a frio** (buffer pool vazio, tudo vindo do disco) leva **~21 minutos**.
+
+Essa diferença gritante (21 min a frio × ~12 s a quente) é a **assinatura clássica de
+full scan** — a mesma do caso [002](../002-filial-distribution-schedule-scan/), aqui em
+escala muito maior: **4 varreduras** de 2,69M linhas + a subquery dependente varrendo
+~2,17M **por linha de saída**, tudo lido do disco a frio.
+
+Por isso o ganho do tuning é **ainda maior a frio**: o índice ataca a *causa* (deixa de
+ler a tabela inteira). A versão tunada lê o índice `(cliente, data_d)` (~96k entradas,
+2 colunas) em vez de varrer 2,69M×N páginas do disco — então o headline real do caso é
+mais próximo de **"~21 min → segundos"** do que de "12 s → 0,77 s".
+
 ## Observação de regra de negócio (a confirmar — não muda o plano, muda o resultado)
 
 A consulta mistura três "instantes" diferentes na mesma linha:

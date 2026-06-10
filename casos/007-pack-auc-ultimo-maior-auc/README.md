@@ -23,7 +23,7 @@ com dois *derived tables* (a perfilada).
 `big_team='spitfire'` (+ `Sort: cliente`), `MAX(data)` por cliente (temp table),
 `MAX(auc)` por cliente (temp table) e a **subquery correlacionada na projeção**
 (`data_max_auc`) que faz table scan **por linha de saída** (`loops=1000`). Total
-**~11,6 s**.
+**~11,6 s a quente** — e **~21 min a frio** na 1ª execução (assinatura de full scan).
 
 ## ⚠️ Bloqueador descoberto: `data` é coluna `TEXT` (data como string)
 
